@@ -1,9 +1,9 @@
 {
 	"patcher" : 	{
 		"fileversion" : 1,
-		"rect" : [ 0.0, 44.0, 1280.0, 726.0 ],
+		"rect" : [ -1651.0, 138.0, 1280.0, 726.0 ],
 		"bglocked" : 0,
-		"defrect" : [ 0.0, 44.0, 1280.0, 726.0 ],
+		"defrect" : [ -1651.0, 138.0, 1280.0, 726.0 ],
 		"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -19,14 +19,28 @@
 		"enablevscroll" : 1,
 		"boxes" : [ 			{
 				"box" : 				{
+					"maxclass" : "message",
+					"text" : "clear",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"patching_rect" : [ 508.0, 132.0, 37.0, 18.0 ],
+					"id" : "obj-6",
+					"fontname" : "Arial",
+					"outlettype" : [ "" ],
+					"fontsize" : 12.0
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"maxclass" : "number",
-					"fontsize" : 12.0,
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"patching_rect" : [ 325.0, 524.0, 50.0, 20.0 ],
-					"outlettype" : [ "int", "bang" ],
 					"id" : "obj-9",
-					"fontname" : "Arial"
+					"fontname" : "Arial",
+					"outlettype" : [ "int", "bang" ],
+					"fontsize" : 12.0
 				}
 
 			}
@@ -34,13 +48,13 @@
 				"box" : 				{
 					"maxclass" : "message",
 					"text" : "test",
-					"fontsize" : 12.0,
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"patching_rect" : [ 461.0, 180.0, 32.5, 18.0 ],
-					"outlettype" : [ "" ],
 					"id" : "obj-7",
-					"fontname" : "Arial"
+					"fontname" : "Arial",
+					"outlettype" : [ "" ],
+					"fontsize" : 12.0
 				}
 
 			}
@@ -50,8 +64,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"patching_rect" : [ 360.0, 158.0, 20.0, 20.0 ],
-					"outlettype" : [ "bang" ],
-					"id" : "obj-3"
+					"id" : "obj-3",
+					"outlettype" : [ "bang" ]
 				}
 
 			}
@@ -59,11 +73,11 @@
 				"box" : 				{
 					"maxclass" : "jsui",
 					"numinlets" : 1,
-					"jsarguments" : [  ],
 					"numoutlets" : 1,
 					"patching_rect" : [ 262.0, 218.0, 691.0, 272.0 ],
-					"outlettype" : [ "" ],
 					"id" : "obj-1",
+					"outlettype" : [ "" ],
+					"jsarguments" : [  ],
 					"filename" : "square_seq_gui.js"
 				}
 
@@ -71,8 +85,17 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"source" : [ "obj-1", 0 ],
-					"destination" : [ "obj-9", 0 ],
+					"source" : [ "obj-6", 0 ],
+					"destination" : [ "obj-1", 0 ],
+					"hidden" : 0,
+					"midpoints" : [  ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"source" : [ "obj-3", 0 ],
+					"destination" : [ "obj-1", 0 ],
 					"hidden" : 0,
 					"midpoints" : [  ]
 				}
@@ -89,8 +112,8 @@
 			}
 , 			{
 				"patchline" : 				{
-					"source" : [ "obj-3", 0 ],
-					"destination" : [ "obj-1", 0 ],
+					"source" : [ "obj-1", 0 ],
+					"destination" : [ "obj-9", 0 ],
 					"hidden" : 0,
 					"midpoints" : [  ]
 				}
