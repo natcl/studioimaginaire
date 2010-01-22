@@ -21,15 +21,15 @@ function init_boxes()
 
 function Box(x, y, size, label)
 {
-    this.x = x
-    this.y = y
-    this.size = size
-    this.label = label
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.label = label;
+    this.clicked = 0;
 }
 
 Box.prototype.draw = function()
 {
-    sketch.glcolor(0,0,0);
     var x1 = this.x;
     var x2 = this.x;
     var x3 = this.x + this.size;
@@ -42,7 +42,15 @@ Box.prototype.draw = function()
     var z2 = 0.;
     var z3 = 0.;
     var z4 = 0.;
+    // Fond
+    sketch.glcolor(0,0,0,0.3);
+    if (this.clicked)
+    	sketch.glcolor(0,0.4,0,0.3);
+    sketch.quad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
+    // Cadre
+    sketch.glcolor(0,0,0,1);
     sketch.framequad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
+    // Texte
     sketch.moveto(this.x + this.size / 2, this.y - this.size / 2);
     sketch.glcolor(0,0.0);
     sketch.text(this.label);
@@ -86,9 +94,11 @@ function onclick (x, y)
 
 function ondblclick (x, y, button, mod1, shift, caps, opt, mod2)
 {
-    post(box_collide(sketch.screentoworld(x,y)[0],sketch.screentoworld(x,y)[1]));
-    post();
-    outlet(0,box_collide(sketch.screentoworld(x,y)[0],sketch.screentoworld(x,y)[1]));
+
+    current_box = box_collide(sketch.screentoworld(x,y)[0],sketch.screentoworld(x,y)[1]);
+    boxes[current_box -1].clicked = 1;
+    draw_boxes();
+    outlet(0,current_box);
     
 
 }
