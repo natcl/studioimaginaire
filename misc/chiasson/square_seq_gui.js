@@ -1,21 +1,21 @@
 autowatch = 1;
 
-const BOX_NUMBER = 4;
-const BOX_SIZE = 0.5;
+var first_x = 0.;
+var first_y = 0.;
+var first_pos_x = 0.;
+var first_post_y = 0.;
 
-var first_x = 0.
-var first_y = 0.
-var first_pos_x = 0.
-var first_post_y = 0.
-
-var current_box = 0.
+var current_box = 0.;
+var box_number = 4;
+var box_size = Math.abs(sketch.screentoworld(0,sketch.size[1])[1] / 2);
 
 var boxes = new Array();
 
 function init_boxes()
 {
-    for (var i = 0; i < BOX_NUMBER; i++)
-        boxes.push(new Box(-2+(BOX_SIZE*i)*1.5,0, BOX_SIZE, String(i + 1)));
+    for (var i = 0; i < box_number; i++)
+        boxes.push(new Box(-2+(box_size*i)*1.5,0, box_size, String(i + 1)));
+    //boxes.sort(function() {return 0.5 - Math.random()});
     draw_boxes();    
 }
 
@@ -23,7 +23,7 @@ function Box(x, y, size, label)
 {
     this.x = x;
     this.y = y;
-    this.size = size;
+    this.size = box_size;
     this.label = label;
     this.clicked = 0;
 }
@@ -107,12 +107,30 @@ function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
 {
        if (current_box)
        {
-           var xx = first_pos_x + (x - first_x);
-           var yy = first_pos_y + (y - first_y);
-           boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
-           boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
+            var xx = first_pos_x + (x - first_x);
+            var yy = first_pos_y + (y - first_y);
+			if (! frame_collide(xx,yy))
+			{
+            	boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
+            	boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
+			}
        }
     draw_boxes();
+}
+
+function frame_collide(x, y)
+{
+	var xx = sketch.screentoworld(x,y)[0];
+	var yy = sketch.screentoworld(x,y)[1];
+	if (yy > 1 || yy < -0.5 || xx + box_size > get_ratio()  || xx < -get_ratio() )
+		return 1;
+	else
+		return 0;
+}
+
+function other_collide(x, y)
+{
+	
 }
 
 function box_collide(x, y)
@@ -127,8 +145,29 @@ function box_collide(x, y)
     return 0;
 }
 
+function onresize(w,h)
+{
+	box_size = Math.abs(sketch.screentoworld(0,sketch.size[1])[1] / 2);
+	draw_boxes();
+}
+
+function set_number_of_boxes(x)
+{
+	clear();
+	box_number = x;
+	init_boxes();
+}
+
+
+function get_ratio()
+{
+	return sketch.size[0] / sketch.size[1];
+}
+
+
 function clear()
 {
     sketch.glclear();
+    boxes = new Array();
     refresh();
 }
