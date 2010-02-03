@@ -16,7 +16,7 @@ function init_boxes()
     for (var i = 0; i < box_number; i++)
         boxes.push(new Box(-2+(box_size*i)*1.5,0, box_size, String(i + 1)));
     //boxes.sort(function() {return 0.5 - Math.random()});
-    draw_boxes();    
+    draw();    
 }
 
 function Box(x, y, size, label)
@@ -72,12 +72,39 @@ function test()
 
 function draw_boxes()
 {
-    sketch.glclear();
     for (var b in boxes)
     {
         boxes[b].draw();
     }
-    refresh();
+}
+
+function draw_background()
+{
+    var slot_width = get_ratio() * 2 / box_number
+    var y1 = 0;
+    var y2 = -1;
+    var y3 = -1;
+    var y4 = 0;
+    var z1 = 0.;
+    var z2 = 0.;
+    var z3 = 0.;
+    var z4 = 0.;
+    
+	for (var i = 0 ; i <= box_number ; i++)
+	{
+		//sketch.glcolor(0,0,0,1);
+		sketch.framequad(slot_width*(i-1)-get_ratio(), y1, z1, slot_width*(i-1)-get_ratio(), y2, z2, slot_width*i-get_ratio(), y3, z3, slot_width*i-get_ratio(), y4, z4);
+		//sketch.glcolor(0.2,0.2,0.2,1);
+		//sketch.quad(slot_width*(i-1)-get_ratio(), y1, z1, slot_width*(i-1)-get_ratio(), y2, z2, slot_width*i-get_ratio(), y3, z3, slot_width*i-get_ratio(), y4, z4);
+	}
+}
+
+function draw()
+{
+	sketch.glclear();
+	draw_background();
+	draw_boxes();
+	refresh();
 }
 
 function onclick (x, y)
@@ -97,7 +124,7 @@ function ondblclick (x, y, button, mod1, shift, caps, opt, mod2)
 
     current_box = box_collide(sketch.screentoworld(x,y)[0],sketch.screentoworld(x,y)[1]);
     boxes[current_box -1].clicked = 1;
-    draw_boxes();
+    draw();
     outlet(0,current_box);
     
 
@@ -115,7 +142,7 @@ function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
             	boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
 			}
        }
-    draw_boxes();
+    draw();
 }
 
 function frame_collide(x, y)
@@ -148,7 +175,7 @@ function box_collide(x, y)
 function onresize(w,h)
 {
 	box_size = Math.abs(sketch.screentoworld(0,sketch.size[1])[1] / 2);
-	draw_boxes();
+	draw();
 }
 
 function set_number_of_boxes(x)
