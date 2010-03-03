@@ -3,7 +3,7 @@ autowatch = 1;
 var first_x = 0.;
 var first_y = 0.;
 var first_pos_x = 0.;
-var first_post_y = 0.;
+var first_pos_y = 0.;
 
 var current_box = 0.;
 var box_number = 4;
@@ -45,7 +45,7 @@ Box.prototype.draw = function()
     // Fond
     sketch.glcolor(0,0,0,0.3);
     if (this.clicked)
-    	sketch.glcolor(0,0.4,0,0.3);
+        sketch.glcolor(0,0.4,0,0.3);
     sketch.quad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
     // Cadre
     sketch.glcolor(0,0,0,1);
@@ -60,7 +60,7 @@ init_boxes();
 
 function bang()
 {
-	draw_boxes();
+    draw_boxes();
 }
 
 
@@ -90,21 +90,21 @@ function draw_background()
     var z3 = 0.;
     var z4 = 0.;
     
-	for (var i = 0 ; i <= box_number ; i++)
-	{
-		//sketch.glcolor(0,0,0,1);
-		sketch.framequad(slot_width*(i-1)-get_ratio(), y1, z1, slot_width*(i-1)-get_ratio(), y2, z2, slot_width*i-get_ratio(), y3, z3, slot_width*i-get_ratio(), y4, z4);
-		//sketch.glcolor(0.2,0.2,0.2,1);
-		//sketch.quad(slot_width*(i-1)-get_ratio(), y1, z1, slot_width*(i-1)-get_ratio(), y2, z2, slot_width*i-get_ratio(), y3, z3, slot_width*i-get_ratio(), y4, z4);
-	}
+    for (var i = 0 ; i <= box_number ; i++)
+    {
+        //sketch.glcolor(0,0,0,1);
+        sketch.framequad(slot_width*(i-1)-get_ratio(), y1, z1, slot_width*(i-1)-get_ratio(), y2, z2, slot_width*i-get_ratio(), y3, z3, slot_width*i-get_ratio(), y4, z4);
+        //sketch.glcolor(0.2,0.2,0.2,1);
+        //sketch.quad(slot_width*(i-1)-get_ratio(), y1, z1, slot_width*(i-1)-get_ratio(), y2, z2, slot_width*i-get_ratio(), y3, z3, slot_width*i-get_ratio(), y4, z4);
+    }
 }
 
 function draw()
 {
-	sketch.glclear();
-	draw_background();
-	draw_boxes();
-	refresh();
+    sketch.glclear();
+    draw_background();
+    draw_boxes();
+    refresh();
 }
 
 function onclick (x, y)
@@ -136,28 +136,28 @@ function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
        {
             var xx = first_pos_x + (x - first_x);
             var yy = first_pos_y + (y - first_y);
-			if (! frame_collide(xx,yy))
-			{
-            	boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
-            	boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
-			}
+            if (! frame_collide(xx,yy))
+            {
+                boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
+                boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
+            }
        }
     draw();
 }
 
 function frame_collide(x, y)
 {
-	var xx = sketch.screentoworld(x,y)[0];
-	var yy = sketch.screentoworld(x,y)[1];
-	if (yy > 1 || yy < -0.5 || xx + box_size > get_ratio()  || xx < -get_ratio() )
-		return 1;
-	else
-		return 0;
+    var xx = sketch.screentoworld(x,y)[0];
+    var yy = sketch.screentoworld(x,y)[1];
+    if (yy > 1 || yy < -0.5 || xx + box_size > get_ratio()  || xx < -get_ratio() )
+        return 1;
+    else
+        return 0;
 }
 
 function other_collide(x, y)
 {
-	
+    
 }
 
 function box_collide(x, y)
@@ -174,21 +174,21 @@ function box_collide(x, y)
 
 function onresize(w,h)
 {
-	box_size = Math.abs(sketch.screentoworld(0,sketch.size[1])[1] / 2);
-	draw();
+    box_size = Math.abs(sketch.screentoworld(0,sketch.size[1])[1] / 2);
+    draw();
 }
 
 function set_number_of_boxes(x)
 {
-	clear();
-	box_number = x;
-	init_boxes();
+    clear();
+    box_number = x;
+    init_boxes();
 }
 
 
 function get_ratio()
 {
-	return sketch.size[0] / sketch.size[1];
+    return sketch.size[0] / sketch.size[1];
 }
 
 
