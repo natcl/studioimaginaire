@@ -14,7 +14,7 @@ var boxes = new Array();
 function init_boxes()
 {
     for (var i = 0; i < box_number; i++)
-        boxes.push(new Box(-2+(box_size*i)*1.5,0, box_size, String(i + 1)));
+        boxes.push(new Box(-get_ratio()+0.1+(box_size*i)*1.5,0.8, box_size, String(i + 1)));
     //boxes.sort(function() {return 0.5 - Math.random()});
     draw();    
 }
