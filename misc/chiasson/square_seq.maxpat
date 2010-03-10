@@ -1,9 +1,9 @@
 {
 	"patcher" : 	{
 		"fileversion" : 1,
-		"rect" : [ 299.0, 113.0, 785.0, 513.0 ],
+		"rect" : [ 299.0, 113.0, 1574.0, 673.0 ],
 		"bglocked" : 0,
-		"defrect" : [ 299.0, 113.0, 785.0, 513.0 ],
+		"defrect" : [ 299.0, 113.0, 1574.0, 673.0 ],
 		"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -20,11 +20,36 @@
 		"devicewidth" : 0.0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"maxclass" : "button",
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 1287.0, 337.0, 20.0, 20.0 ],
+					"id" : "obj-16",
+					"numinlets" : 1
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"maxclass" : "message",
-					"text" : "2 3 4 1",
+					"text" : "compile",
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 380.0, 416.0, 180.0, 18.0 ],
+					"patching_rect" : [ 401.0, 73.0, 52.0, 18.0 ],
+					"id" : "obj-10",
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"numinlets" : 2
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"maxclass" : "message",
+					"text" : "done",
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1081.0, 372.0, 180.0, 18.0 ],
 					"id" : "obj-15",
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
@@ -183,10 +208,10 @@
 , 			{
 				"box" : 				{
 					"maxclass" : "jsui",
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
 					"jsarguments" : [  ],
-					"patching_rect" : [ 29.0, 95.0, 687.0, 256.0 ],
+					"patching_rect" : [ 29.0, 95.0, 1232.0, 243.0 ],
 					"id" : "obj-1",
 					"filename" : "square_seq_gui.js",
 					"numinlets" : 1
@@ -196,7 +221,16 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"source" : [ "obj-1", 0 ],
+					"source" : [ "obj-1", 1 ],
+					"destination" : [ "obj-16", 0 ],
+					"hidden" : 0,
+					"midpoints" : [  ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"source" : [ "obj-1", 1 ],
 					"destination" : [ "obj-15", 1 ],
 					"hidden" : 0,
 					"midpoints" : [  ]
@@ -324,6 +358,15 @@
 				"patchline" : 				{
 					"source" : [ "obj-13", 1 ],
 					"destination" : [ "obj-11", 1 ],
+					"hidden" : 0,
+					"midpoints" : [  ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"source" : [ "obj-10", 0 ],
+					"destination" : [ "obj-1", 0 ],
 					"hidden" : 0,
 					"midpoints" : [  ]
 				}

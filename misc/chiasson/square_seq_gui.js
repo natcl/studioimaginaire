@@ -1,5 +1,6 @@
 autowatch = 1;
 
+outlets = 2;
 var first_x = 0.;
 var first_y = 0.;
 var first_pos_x = 0.;
@@ -127,7 +128,17 @@ function ondblclick (x, y, button, mod1, shift, caps, opt, mod2)
     draw();
     outlet(0,current_box);
     
-
+    var contains = 0;
+    
+    for (var b in boxes)
+    {
+    	if (boxes[b].clicked == 0)
+    	{
+    		return;
+    		contains = 1;
+	   	}
+    } 		
+    outlet(1,'done');
 }
 
 function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
