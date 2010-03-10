@@ -198,3 +198,22 @@ function clear()
     boxes = new Array();
     refresh();
 }
+
+function get_order()
+{
+	var tempList = new Array();
+	boxes.sort(sortx);
+	for (var b in boxes)
+	{
+		tempList.push(parseInt(boxes[b].label));
+	}
+	outlet(0,tempList);
+}
+
+function sortx(a,b)
+{
+	if (a.x < b.x) return -1;
+	else if (a.x > b.x) return 1;
+	else return 0;
+	
+}
