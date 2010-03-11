@@ -15,7 +15,7 @@ var boxes = new Array();
 function init_boxes()
 {
     for (var i = 0; i < box_number; i++)
-        boxes.push(new Box(-get_ratio()+0.1+(box_size*i)*1.5,0.8, box_size, String(i + 1)));
+        boxes.push(new Box(-get_ratio()+get_ratio()/3+(box_size*i)*1.5,0.8, box_size, String(i + 1)));
     //boxes.sort(function() {return 0.5 - Math.random()});
     draw();    
 }
@@ -143,17 +143,28 @@ function ondblclick (x, y, button, mod1, shift, caps, opt, mod2)
 
 function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
 {
-       if (current_box)
-       {
-            var xx = first_pos_x + (x - first_x);
-            var yy = first_pos_y + (y - first_y);
-            if (! frame_collide(xx,yy))
-            {
-                boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
-                boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
-            }
-       }
-    draw();
+	if (current_box)
+	{
+   		var xx = first_pos_x + (x - first_x);
+        var yy = first_pos_y + (y - first_y);
+        if (! frame_collide(xx,yy))
+        {
+        	boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
+            boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
+        }
+	   	
+	   	// Release
+		if (button == 0)
+		{
+			if (cell_collide(x, y))
+			{	
+				boxes[current_box - 1].x = sketch.screentoworld(sketch.worldtoscreen(get_ratio(), y)[0] / boxes.length * cell_collide(x, y), y)[0] - get_ratio() / boxes.length - (box_size/2);
+            	boxes[current_box - 1].y = -0.33;
+			}
+		}     
+    }
+ 
+	draw(); 
 }
 
 function frame_collide(x, y)
@@ -181,6 +192,14 @@ function box_collide(x, y)
         }
     }
     return 0;
+}
+
+function cell_collide(x, y)
+{
+	if (sketch.screentoworld(x,y)[1] < 0)
+		return Math.ceil(x / parseInt(sketch.worldtoscreen(get_ratio())) * (boxes.length));
+	else
+		return 0;
 }
 
 function onresize(w,h)
