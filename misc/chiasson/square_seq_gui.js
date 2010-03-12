@@ -7,16 +7,27 @@ var first_pos_x = 0.;
 var first_pos_y = 0.;
 
 var current_box = 0.;
+var first_slot = 0;
 var box_number = 4;
 var box_size = Math.abs(sketch.screentoworld(0,sketch.size[1])[1] / 2);
 
 var boxes = new Array();
+var slots = new Slots();
+
+function init_slots()
+{
+	for (var j = 0; j < box_number; j++)
+	{
+		slots.slots.push(0);
+	}
+}
 
 function init_boxes()
 {
     for (var i = 0; i < box_number; i++)
         boxes.push(new Box(-get_ratio()+get_ratio()/3+(box_size*i)*1.5,0.8, box_size, String(i + 1)));
     //boxes.sort(function() {return 0.5 - Math.random()});
+    init_slots();
     draw();    
 }
 
@@ -57,29 +68,12 @@ Box.prototype.draw = function()
     sketch.text(this.label);
 }
 
-init_boxes();
-
-function bang()
+function Slots(number)
 {
-    draw_boxes();
+	this.slots = new Array();
 }
 
-
-function test()
-{
-    boxes[0].x = 0;
-    draw_boxes();
-}
-
-function draw_boxes()
-{
-    for (var b in boxes)
-    {
-        boxes[b].draw();
-    }
-}
-
-function draw_background()
+Slots.prototype.draw = function()
 {
     var slot_width = get_ratio() * 2 / box_number
     var y1 = 0;
@@ -100,10 +94,32 @@ function draw_background()
     }
 }
 
+init_boxes();
+
+function bang()
+{
+    post(slots.slots);post();
+}
+
+
+function test()
+{
+    boxes[0].x = 0;
+    draw_boxes();
+}
+
+function draw_boxes()
+{
+    for (var b in boxes)
+    {
+        boxes[b].draw();
+    }
+}
+
 function draw()
 {
     sketch.glclear();
-    draw_background();
+    slots.draw();
     draw_boxes();
     refresh();
 }
@@ -113,6 +129,7 @@ function onclick (x, y)
     first_x = x;
     first_y = y;
     current_box = box_collide(sketch.screentoworld(x,y)[0],sketch.screentoworld(x,y)[1]);
+    first_slot = cell_collide(x,y);
     if (current_box)
     {
         first_pos_x = sketch.worldtoscreen(boxes[current_box -1].x, boxes[current_box -1].y)[0];
@@ -156,10 +173,32 @@ function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
 	   	// Release
 		if (button == 0)
 		{
-			if (cell_collide(x, y))
+			var slot = cell_collide(x, y); 
+			//
+			
+			// If release happens in lower part
+			if (slot > 0)
 			{	
-				boxes[current_box - 1].x = sketch.screentoworld(sketch.worldtoscreen(get_ratio(), y)[0] / boxes.length * cell_collide(x, y), y)[0] - get_ratio() / boxes.length - (box_size/2);
-            	boxes[current_box - 1].y = -0.33;
+				
+				// If slot is not empty, return object to initial position
+				if (slots.slots[slot-1] > 0)
+				{
+					boxes[current_box - 1].x = sketch.screentoworld(first_pos_x,first_pos_y)[0];
+					boxes[current_box - 1].y = sketch.screentoworld(first_pos_x,first_pos_y)[1];
+				}
+				// If slot is empty, move box there
+				if (slots.slots[slot-1] == 0)
+				{
+					slots.slots[first_slot-1] = 0;
+					slots.slots[slot-1] = boxes[current_box - 1].label;
+					boxes[current_box - 1].x = sketch.screentoworld(sketch.worldtoscreen(get_ratio(), y)[0] / boxes.length * slot, y)[0] - get_ratio() / boxes.length - (box_size/2);
+	            	boxes[current_box - 1].y = -0.5 + (box_size/2);
+				}
+			}
+			// If release happens in upper part
+			if (slot == 0)
+			{
+				slots.slots[first_slot-1] = 0;
 			}
 		}     
     }
@@ -225,6 +264,7 @@ function get_ratio()
 function clear()
 {
     sketch.glclear();
+    slots.slots = new Array();
     boxes = new Array();
     refresh();
 }
