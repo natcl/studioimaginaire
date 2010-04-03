@@ -16,10 +16,10 @@ var slots = new Slots();
 
 function init_slots()
 {
-	for (var j = 0; j < box_number; j++)
-	{
-		slots.slots.push(0);
-	}
+    for (var j = 0; j < box_number; j++)
+    {
+        slots.slots.push(0);
+    }
 }
 
 function init_boxes()
@@ -70,7 +70,7 @@ Box.prototype.draw = function()
 
 function Slots(number)
 {
-	this.slots = new Array();
+    this.slots = new Array();
 }
 
 Slots.prototype.draw = function()
@@ -99,13 +99,6 @@ init_boxes();
 function bang()
 {
     post(slots.slots);post();
-}
-
-
-function test()
-{
-    boxes[0].x = 0;
-    draw_boxes();
 }
 
 function draw_boxes()
@@ -149,61 +142,61 @@ function ondblclick (x, y, button, mod1, shift, caps, opt, mod2)
     
     for (var b in boxes)
     {
-    	if (boxes[b].clicked == 0)
-    	{
-    		return;
-    		contains = 1;
-	   	}
-    } 		
+        if (boxes[b].clicked == 0)
+        {
+            return;
+            contains = 1;
+           }
+    }         
     outlet(1,'done');
 }
 
 function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
 {
-	if (current_box)
-	{
-   		var xx = first_pos_x + (x - first_x);
+    if (current_box)
+    {
+           var xx = first_pos_x + (x - first_x);
         var yy = first_pos_y + (y - first_y);
         if (! frame_collide(xx,yy))
         {
-        	boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
+            boxes[current_box - 1].x = sketch.screentoworld(xx,yy)[0];
             boxes[current_box - 1].y = sketch.screentoworld(xx,yy)[1];
         }
-	   	
-	   	// Release
-		if (button == 0)
-		{
-			var slot = cell_collide(x, y); 
-			//
-			
-			// If release happens in lower part
-			if (slot > 0)
-			{	
-				
-				// If slot is not empty, return object to initial position
-				if (slots.slots[slot-1] > 0)
-				{
-					boxes[current_box - 1].x = sketch.screentoworld(first_pos_x,first_pos_y)[0];
-					boxes[current_box - 1].y = sketch.screentoworld(first_pos_x,first_pos_y)[1];
-				}
-				// If slot is empty, move box there
-				if (slots.slots[slot-1] == 0)
-				{
-					slots.slots[first_slot-1] = 0;
-					slots.slots[slot-1] = boxes[current_box - 1].label;
-					boxes[current_box - 1].x = sketch.screentoworld(sketch.worldtoscreen(get_ratio(), y)[0] / boxes.length * slot, y)[0] - get_ratio() / boxes.length - (box_size/2);
-	            	boxes[current_box - 1].y = -0.5 + (box_size/2);
-				}
-			}
-			// If release happens in upper part
-			if (slot == 0)
-			{
-				slots.slots[first_slot-1] = 0;
-			}
-		}     
+           
+           // Release
+        if (button == 0)
+        {
+            var slot = cell_collide(x, y); 
+            //
+            
+            // If release happens in lower part
+            if (slot > 0)
+            {    
+                
+                // If slot is not empty, return object to initial position
+                if (slots.slots[slot-1] > 0)
+                {
+                    boxes[current_box - 1].x = sketch.screentoworld(first_pos_x,first_pos_y)[0];
+                    boxes[current_box - 1].y = sketch.screentoworld(first_pos_x,first_pos_y)[1];
+                }
+                // If slot is empty, move box there
+                if (slots.slots[slot-1] == 0)
+                {
+                    slots.slots[first_slot-1] = 0;
+                    slots.slots[slot-1] = boxes[current_box - 1].label;
+                    boxes[current_box - 1].x = sketch.screentoworld(sketch.worldtoscreen(get_ratio(), y)[0] / boxes.length * slot, y)[0] - get_ratio() / boxes.length - (box_size/2);
+                    boxes[current_box - 1].y = -0.5 + (box_size/2);
+                }
+            }
+            // If release happens in upper part
+            if (slot == 0)
+            {
+                slots.slots[first_slot-1] = 0;
+            }
+        }     
     }
  
-	draw(); 
+    draw(); 
 }
 
 function frame_collide(x, y)
@@ -235,10 +228,10 @@ function box_collide(x, y)
 
 function cell_collide(x, y)
 {
-	if (sketch.screentoworld(x,y)[1] < 0)
-		return Math.ceil(x / parseInt(sketch.worldtoscreen(get_ratio())) * (boxes.length));
-	else
-		return 0;
+    if (sketch.screentoworld(x,y)[1] < 0)
+        return Math.ceil(x / parseInt(sketch.worldtoscreen(get_ratio())) * (boxes.length));
+    else
+        return 0;
 }
 
 function onresize(w,h)
@@ -271,19 +264,13 @@ function clear()
 
 function get_order()
 {
-	var tempList = new Array();
-	boxes.sort(sortx);
-	for (var b in boxes)
-	{
-		tempList.push(parseInt(boxes[b].label));
-	}
-	outlet(0,tempList);
+    outlet(0,[parseInt(slots.slots[0]), parseInt(slots.slots[1]), parseInt(slots.slots[2]), parseInt(slots.slots[3])]);
 }
 
 function sortx(a,b)
 {
-	if (a.x < b.x) return -1;
-	else if (a.x > b.x) return 1;
-	else return 0;
-	
+    if (a.x < b.x) return -1;
+    else if (a.x > b.x) return 1;
+    else return 0;
+    
 }
