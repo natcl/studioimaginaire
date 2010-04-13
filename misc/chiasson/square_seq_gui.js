@@ -144,18 +144,18 @@ function ondblclick (x, y, button, mod1, shift, caps, opt, mod2)
     {
         if (boxes[b].clicked == 0)
         {
+            outlet(1,0)
             return;
-            contains = 1;
-           }
+        }
     }         
-    outlet(1,'done');
+    outlet(1,1);
 }
 
 function ondrag (x, y, button, mod1, shift, caps, opt, mod2)
 {
     if (current_box)
     {
-           var xx = first_pos_x + (x - first_x);
+        var xx = first_pos_x + (x - first_x);
         var yy = first_pos_y + (y - first_y);
         if (! frame_collide(xx,yy))
         {
@@ -259,12 +259,19 @@ function clear()
     sketch.glclear();
     slots.slots = new Array();
     boxes = new Array();
+    outlet(1,0);
     refresh();
 }
 
 function get_order()
 {
-    outlet(0,[parseInt(slots.slots[0]), parseInt(slots.slots[1]), parseInt(slots.slots[2]), parseInt(slots.slots[3])]);
+    var temp_list = new Array()
+    post(slots.slots);post();
+    for (var i = 0 ; i < slots.slots.length ; i++)
+    {
+    	temp_list.push(parseInt(slots.slots[i]));
+    }
+    outlet(0,temp_list);
 }
 
 function sortx(a,b)
