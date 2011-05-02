@@ -1,4 +1,4 @@
-{'power': '0xE0E040BF',
+un40c5000 = {'power': '0xE0E040BF',
 'source': '0xE0E0807F',
 '1': '0xE0E020DF',
 '2': '0xE0E0A05F',
@@ -11,7 +11,7 @@
 '9': '0xE0E0708F',
 '0': '0xE0E08877',
 '-': '0xE0E0C43B',
-'previous_channel' '0xE0E0C837',
+'previous_channel': '0xE0E0C837',
 'volume_up': '0xE0E0E01F',
 'volume_down': '0xE0E0D02F',
 'mute': '0xE0E0F00F',
@@ -29,4 +29,5 @@
 'exit': '0xE0E0B44B',
 'tools': '0xE0E0D22D',
 'hdmi1': '0xE0E09768',
-'tv': '0xE0E0D827'}
+'tv': '0xE0E0D827',
+'component': '0xE0E0619E'}
