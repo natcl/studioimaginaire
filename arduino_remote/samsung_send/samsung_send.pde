@@ -14,7 +14,7 @@ uint32_t byte2;
 uint32_t byte3;
 uint32_t byte4;
 uint32_t final_byte;
-//irsend.sendSamsung(0xE0E040BF, 32);
+
 void setup()
 {
   Serial.begin(9600);
@@ -22,7 +22,7 @@ void setup()
 
 void loop() {
   	// send data only when you receive data:
-	byte1 = 0xE0;
+        byte1 = 0xE0;
         byte2 = 0xE0;
         byte3 = 0;
         byte4 = 0;
@@ -32,12 +32,12 @@ void loop() {
                 byte4 = Serial.read();
                 final_byte = (byte1 << 24) | (byte2 << 16) | (byte3 << 8) | (byte4);
                 irsend.sendSamsung(final_byte, 32);
-		Serial.println("I received: ");
-		Serial.println(byte1, HEX);
-                Serial.println(byte2, HEX);
-                Serial.println(byte3, HEX);
-                Serial.println(byte4, HEX);
-                Serial.println(final_byte, HEX);
+		//Serial.println("I received: ");
+		//Serial.println(byte1, HEX);
+                //Serial.println(byte2, HEX);
+                //Serial.println(byte3, HEX);
+                //Serial.println(byte4, HEX);
+                //Serial.println(final_byte, HEX);
 	}
 }
 
