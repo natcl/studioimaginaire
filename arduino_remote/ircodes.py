@@ -30,4 +30,5 @@ un40c5000 = {'power': '0xE0E040BF',
 'tools': '0xE0E0D22D',
 'hdmi1': '0xE0E09768',
 'tv': '0xE0E0D827',
-'component': '0xE0E0619E'}
+'component': '0xE0E0619E',
+'pip': '0xE0E04CB3'}
